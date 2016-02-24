@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -11,8 +12,12 @@ type datastructure interface {
 	Find(element) element
 }
 
-func ReadFile(filename string, unigrams, bigrams datastructure) {
-	file, _ := os.Open(filename)
+func ReadFile(filename string, unigrams, bigrams datastructure) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
+		return err
+	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanWords)
@@ -25,4 +30,5 @@ func ReadFile(filename string, unigrams, bigrams datastructure) {
 		}
 		prev = str
 	}
+	return nil
 }

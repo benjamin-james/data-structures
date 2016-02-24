@@ -41,3 +41,9 @@ func (b *bst) Find(key element) element {
 	}
 	return nil
 }
+
+func (b *bst) Display() {
+	if b.head != nil {
+		b.head.Display()
+	}
+}

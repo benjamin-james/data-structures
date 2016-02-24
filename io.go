@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 )
 
@@ -15,7 +14,6 @@ type datastructure interface {
 func ReadFile(filename string, unigrams, bigrams datastructure) error {
 	file, err := os.Open(filename)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
 		return err
 	}
 	defer file.Close()
@@ -30,5 +28,5 @@ func ReadFile(filename string, unigrams, bigrams datastructure) error {
 		}
 		prev = str
 	}
-	return nil
+	return scanner.Err()
 }

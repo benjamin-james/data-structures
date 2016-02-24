@@ -1,10 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
+
+	filename := "/dev/stdin"
+	if len(os.Args) > 1 {
+		filename = os.Args[1]
+	}
 	uni, bi := NewAVL(), NewAVL()
-	err := ReadFile("/dev/stdin", uni, bi)
+	err := ReadFile(filename, uni, bi)
 	if err == nil {
 		fmt.Println("\nUnigrams")
 		uni.Display()

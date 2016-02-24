@@ -3,6 +3,7 @@ package main
 import "fmt"
 
 type cmpfunc func(a interface{}, b interface{}) int
+type eq_hook func(a interface{}) interface{}
 
 type node struct {
 	value       interface{} // Go's way out of templates

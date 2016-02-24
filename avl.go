@@ -3,11 +3,13 @@ package main
 type avl struct {
 	head *node
 	cmp  cmpfunc
+	eq   eq_hook
 }
 
-func (a *avl) init(cmp cmpfunc) *avl {
+func (a *avl) init(cmp cmpfunc, eq eq_hook) *avl {
 	a.head = nil
 	a.cmp = cmp
+	a.eq = eq
 	return a
 }
 
@@ -17,8 +19,8 @@ func (a *avl) Display() {
 	}
 }
 
-func NewAVL(cmp cmpfunc) *avl {
-	return new(avl).init(cmp)
+func NewAVL(cmp cmpfunc, eq eq_hook) *avl {
+	return new(avl).init(cmp, eq)
 }
 
 func balance(tree *node) *node {
@@ -39,15 +41,19 @@ func balance(tree *node) *node {
 	return tree
 }
 
-func insert(tree *node, value interface{}, cmp cmpfunc) *node {
+func insert(tree *node, value interface{}, cmp cmpfunc, eq eq_hook) *node {
 	if tree == nil {
-		tree = NewNode(value)
-	} else if cmp(value, tree.value) > 0 {
-		tree.right = insert(tree.right, value, cmp)
+		return NewNode(value)
+	}
+	compare := cmp(value, tree.value)
+	if compare == 0 {
+		tree.value = eq(tree.value)
+	} else if compare > 0 {
+		tree.right = insert(tree.right, value, cmp, eq)
 		tree.get_height()
 		tree = balance(tree)
-	} else if cmp(value, tree.value) < 0 {
-		tree.left = insert(tree.left, value, cmp)
+	} else if compare < 0 {
+		tree.left = insert(tree.left, value, cmp, eq)
 		tree.get_height()
 		tree = balance(tree)
 	}
@@ -55,7 +61,7 @@ func insert(tree *node, value interface{}, cmp cmpfunc) *node {
 }
 
 func (a *avl) Insert(value interface{}) {
-	a.head = insert(a.head, value, a.cmp)
+	a.head = insert(a.head, value, a.cmp, a.eq)
 }
 
 func (a *avl) Find(key interface{}) interface{} {

@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	avl := NewAVL(Uni_cmp, Uni_eq)
+	avl := NewAVL()
 	avl.Insert(NewUni("foo", 1))
 	avl.Insert(NewUni("bar", 1))
 	avl.Insert(NewUni("baz", 1))

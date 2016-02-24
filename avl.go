@@ -2,14 +2,10 @@ package main
 
 type avl struct {
 	head *node
-	cmp  cmpfunc
-	eq   eq_hook
 }
 
-func (a *avl) init(cmp cmpfunc, eq eq_hook) *avl {
+func (a *avl) init() *avl {
 	a.head = nil
-	a.cmp = cmp
-	a.eq = eq
 	return a
 }
 
@@ -19,8 +15,8 @@ func (a *avl) Display() {
 	}
 }
 
-func NewAVL(cmp cmpfunc, eq eq_hook) *avl {
-	return new(avl).init(cmp, eq)
+func NewAVL() *avl {
+	return new(avl).init()
 }
 
 func balance(tree *node) *node {
@@ -41,32 +37,32 @@ func balance(tree *node) *node {
 	return tree
 }
 
-func insert(tree *node, value interface{}, cmp cmpfunc, eq eq_hook) *node {
+func insert(tree *node, value element) *node {
 	if tree == nil {
 		return NewNode(value)
 	}
-	compare := cmp(value, tree.value)
+	compare := value.Compare(tree.value)
 	if compare == 0 {
-		tree.value = eq(tree.value)
+		tree.value.Update()
 	} else if compare > 0 {
-		tree.right = insert(tree.right, value, cmp, eq)
+		tree.right = insert(tree.right, value)
 		tree.get_height()
 		tree = balance(tree)
 	} else if compare < 0 {
-		tree.left = insert(tree.left, value, cmp, eq)
+		tree.left = insert(tree.left, value)
 		tree.get_height()
 		tree = balance(tree)
 	}
 	return tree
 }
 
-func (a *avl) Insert(value interface{}) {
-	a.head = insert(a.head, value, a.cmp, a.eq)
+func (a *avl) Insert(value element) {
+	a.head = insert(a.head, value)
 }
 
-func (a *avl) Find(key interface{}) interface{} {
+func (a *avl) Find(key element) element {
 	if key != nil && a.head != nil {
-		n := a.head.find(key, a.cmp)
+		n := a.head.find(key)
 		if n != nil {
 			return n.value
 		}

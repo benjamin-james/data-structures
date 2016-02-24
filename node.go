@@ -2,16 +2,13 @@ package main
 
 import "fmt"
 
-type cmpfunc func(a interface{}, b interface{}) int
-type eq_hook func(a interface{}) interface{}
-
 type node struct {
-	value       interface{} // Go's way out of templates
+	value       element
 	left, right *node
 	height      int
 }
 
-func (n *node) init(value interface{}) *node {
+func (n *node) init(value element) *node {
 	n.left = nil
 	n.right = nil
 	n.height = 1
@@ -19,7 +16,7 @@ func (n *node) init(value interface{}) *node {
 	return n
 }
 
-func NewNode(value interface{}) *node {
+func NewNode(value element) *node {
 	return new(node).init(value)
 }
 
@@ -62,12 +59,12 @@ func (n *node) get_height() int {
 	return n.height
 }
 
-func (n *node) find(key interface{}, cmp cmpfunc) *node {
-	ret := cmp(key, n.value)
+func (n *node) find(key element) *node {
+	ret := key.Compare(n.value)
 	if ret > 0 && n.right != nil {
-		return n.right.find(key, cmp)
+		return n.right.find(key)
 	} else if ret < 0 && n.left != nil {
-		return n.left.find(key, cmp)
+		return n.left.find(key)
 	} else if ret == 0 {
 		return n
 	} else {

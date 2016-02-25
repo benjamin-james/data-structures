@@ -72,6 +72,15 @@ func (n *node) find(key element) *node {
 	}
 }
 
+func Tree_iterate(n *node, ch chan element) {
+	if n == nil {
+		return
+	}
+	Tree_iterate(n.left, ch)
+	ch <- n.value
+	Tree_iterate(n.right, ch)
+}
+
 func (n *node) leftleft() *node {
 	temp := n.left
 	n.left = temp.right

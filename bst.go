@@ -47,3 +47,12 @@ func (b *bst) Display() {
 		b.head.Display()
 	}
 }
+
+func (b *bst) Iterator() <-chan element {
+	ch := make(chan element)
+	go func() {
+		Tree_iterate(b.head, ch)
+		close(ch)
+	}()
+	return ch
+}

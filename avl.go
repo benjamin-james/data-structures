@@ -69,3 +69,12 @@ func (a *avl) Find(key element) element {
 	}
 	return nil
 }
+
+func (a *avl) Iterator() <-chan element {
+	ch := make(chan element)
+	go func() {
+		Tree_iterate(a.head, ch)
+		close(ch)
+	}()
+	return ch
+}

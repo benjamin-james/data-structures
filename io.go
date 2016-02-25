@@ -3,12 +3,19 @@ package main
 import (
 	"bufio"
 	"os"
+	"strings"
 )
 
 type datastructure interface {
 	Display()
 	Insert(element)
 	Find(element) element
+}
+
+func Clean(str string) string {
+	//lowercase, remove punctuation, numbers
+	str = strings.ToLower(str)
+	return str
 }
 
 func ReadFile(filename string, unigrams, bigrams datastructure) error {
@@ -22,6 +29,7 @@ func ReadFile(filename string, unigrams, bigrams datastructure) error {
 	prev := ""
 	for scanner.Scan() {
 		str := scanner.Text()
+		str = Clean(str)
 		unigrams.Insert(NewUni(str, 1))
 		if prev != "" {
 			bigrams.Insert(NewBi(prev, str, 1))

@@ -10,6 +10,7 @@ type datastructure interface {
 	Display()
 	Insert(element)
 	Find(element) element
+	Iterator() <-chan element
 }
 
 func Clean(str string) string {

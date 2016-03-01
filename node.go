@@ -86,21 +86,19 @@ func (n *node) Copy() *node {
 }
 
 func (n *node) leftleft() *node {
-	old_n := n.Copy()
-	new_n := old_n.right
-	old_n.left = new_n.right
-	new_n.right = old_n
-	old_n.get_height()
+	new_n := n.left.Copy()
+	n.left = new_n.right
+	new_n.right = n
+	n.get_height()
 	new_n.get_height()
 	return new_n
 }
 
 func (n *node) rightright() *node {
-	old_n := n.Copy()
-	new_n := old_n.right
-	old_n.right = new_n.left
-	new_n.left = old_n
-	old_n.get_height()
+	new_n := n.right.Copy()
+	n.right = new_n.left
+	new_n.left = n
+	n.get_height()
 	new_n.get_height()
 	return new_n
 }

@@ -1,21 +1,22 @@
-package main
+package problem
 
 import (
+	u "benJames/util"
 	"fmt"
 	"strings"
 )
 
-type bigram struct {
+type Bigram struct {
 	str1, str2 string
 	count      int
 }
 
-func NewBi(str1, str2 string, count int) *bigram {
-	return &bigram{str1, str2, count}
+func NewBi(str1, str2 string, count int) *Bigram {
+	return &Bigram{str1, str2, count}
 }
 
-func (a *bigram) Compare(b element) int {
-	if x, is_bi := b.(*bigram); is_bi {
+func (a *Bigram) Compare(b u.Element) int {
+	if x, is_bi := b.(*Bigram); is_bi {
 		a_str := fmt.Sprintf("%s %s", a.str1, a.str2)
 		b_str := fmt.Sprintf("%s %s", x.str1, x.str2)
 		return strings.Compare(a_str, b_str)
@@ -24,10 +25,10 @@ func (a *bigram) Compare(b element) int {
 	}
 }
 
-func (b *bigram) Update() {
+func (b *Bigram) Update() {
 	b.count++
 }
 
-func (b *bigram) String() string {
+func (b *Bigram) String() string {
 	return fmt.Sprintf("[\"%s %s\": %d]", b.str1, b.str2, b.count)
 }

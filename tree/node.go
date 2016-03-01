@@ -1,14 +1,17 @@
-package main
+package tree
 
-import "fmt"
+import (
+	u "benJames/util"
+	"fmt"
+)
 
 type node struct {
-	value       element
+	value       u.Element
 	left, right *node
 	height      int
 }
 
-func (n *node) init(value element) *node {
+func (n *node) init(value u.Element) *node {
 	n.left = nil
 	n.right = nil
 	n.height = 1
@@ -16,7 +19,7 @@ func (n *node) init(value element) *node {
 	return n
 }
 
-func NewNode(value element) *node {
+func NewNode(value u.Element) *node {
 	return new(node).init(value)
 }
 
@@ -59,7 +62,7 @@ func (n *node) get_height() int {
 	return n.height
 }
 
-func (n *node) find(key element) *node {
+func (n *node) find(key u.Element) *node {
 	ret := key.Compare(n.value)
 	if ret > 0 && n.right != nil {
 		return n.right.find(key)
@@ -72,7 +75,7 @@ func (n *node) find(key element) *node {
 	}
 }
 
-func Tree_iterate(n *node, ch chan element) {
+func Tree_iterate(n *node, ch chan u.Element) {
 	if n == nil {
 		return
 	}

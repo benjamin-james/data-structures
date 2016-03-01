@@ -1,4 +1,6 @@
-package main
+package tree
+
+import u "benJames/util"
 
 type bst struct {
 	head *node
@@ -13,7 +15,7 @@ func NewBST() *bst {
 	return new(bst).init()
 }
 
-func bst_insert(tree *node, value element) *node {
+func bst_insert(tree *node, value u.Element) *node {
 	if tree == nil {
 		return NewNode(value)
 	}
@@ -28,11 +30,11 @@ func bst_insert(tree *node, value element) *node {
 	return tree
 }
 
-func (b *bst) Insert(value element) {
+func (b *bst) Insert(value u.Element) {
 	b.head = bst_insert(b.head, value)
 }
 
-func (b *bst) Find(key element) element {
+func (b *bst) Find(key u.Element) u.Element {
 	if key != nil && b.head != nil {
 		n := b.head.find(key)
 		if n != nil {
@@ -48,8 +50,8 @@ func (b *bst) Display() {
 	}
 }
 
-func (b *bst) Iterator() <-chan element {
-	ch := make(chan element)
+func (b *bst) Iterator() <-chan u.Element {
+	ch := make(chan u.Element)
 	go func() {
 		Tree_iterate(b.head, ch)
 		close(ch)

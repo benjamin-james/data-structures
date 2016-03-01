@@ -1,17 +1,11 @@
-package main
+package problem
 
 import (
+	u "benJames/util"
 	"bufio"
 	"os"
 	"strings"
 )
-
-type datastructure interface {
-	Display()
-	Insert(element)
-	Find(element) element
-	Iterator() <-chan element
-}
 
 func Clean(str string) string {
 	//lowercase, remove punctuation, numbers
@@ -19,7 +13,7 @@ func Clean(str string) string {
 	return str
 }
 
-func ReadFile(filename string, unigrams, bigrams datastructure) error {
+func ReadFile(filename string, unigrams, bigrams u.DataStructure) error {
 	file, err := os.Open(filename)
 	if err != nil {
 		return err

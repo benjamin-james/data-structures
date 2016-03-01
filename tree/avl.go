@@ -1,4 +1,6 @@
-package main
+package tree
+
+import u "benJames/util"
 
 type avl struct {
 	head *node
@@ -37,7 +39,7 @@ func balance(tree *node) *node {
 	return tree
 }
 
-func insert(tree *node, value element) *node {
+func insert(tree *node, value u.Element) *node {
 	if tree == nil {
 		return NewNode(value)
 	}
@@ -56,11 +58,11 @@ func insert(tree *node, value element) *node {
 	return tree
 }
 
-func (a *avl) Insert(value element) {
+func (a *avl) Insert(value u.Element) {
 	a.head = insert(a.head, value)
 }
 
-func (a *avl) Find(key element) element {
+func (a *avl) Find(key u.Element) u.Element {
 	if key != nil && a.head != nil {
 		n := a.head.find(key)
 		if n != nil {
@@ -70,8 +72,8 @@ func (a *avl) Find(key element) element {
 	return nil
 }
 
-func (a *avl) Iterator() <-chan element {
-	ch := make(chan element)
+func (a *avl) Iterator() <-chan u.Element {
+	ch := make(chan u.Element)
 	go func() {
 		Tree_iterate(a.head, ch)
 		close(ch)

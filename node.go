@@ -81,24 +81,28 @@ func Tree_iterate(n *node, ch chan element) {
 	Tree_iterate(n.right, ch)
 }
 
+func (n *node) Copy() *node {
+	return &node{n.value, n.left, n.right, n.height}
+}
+
 func (n *node) leftleft() *node {
-	k1 := &node{n.value, n.left, n.right, n.height}
-	k2 := &node{k1.left.value, k1.left.left, k1.left.right, k1.left.height}
-	k1.left = k2.right
-	k2.right = k1
-	k1.get_height()
-	k2.get_height()
-	return k2
+	old_n := n.Copy()
+	new_n := old_n.right
+	old_n.left = new_n.right
+	new_n.right = old_n
+	old_n.get_height()
+	new_n.get_height()
+	return new_n
 }
 
 func (n *node) rightright() *node {
-	k1 := &node{n.value, n.left, n.right, n.height}
-	k2 := &node{k1.right.value, k1.right.left, k1.right.right, k1.right.height}
-	k1.right = k2.left
-	k2.left = k1
-	k1.get_height()
-	k2.get_height()
-	return k2
+	old_n := n.Copy()
+	new_n := old_n.right
+	old_n.right = new_n.left
+	new_n.left = old_n
+	old_n.get_height()
+	new_n.get_height()
+	return new_n
 }
 
 func (n *node) leftright() *node {

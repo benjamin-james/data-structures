@@ -13,7 +13,7 @@ type Element interface {
 type DataStructure interface {
 	Display()
 	Insert(Element)
-	InsertList(Element)
+	InsertList(...Element)
 	Find(Element) Element
 	Iterator() <-chan Element
 }

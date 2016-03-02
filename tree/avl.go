@@ -62,6 +62,12 @@ func (a *avl) Insert(value u.Element) {
 	a.head = insert(a.head, value)
 }
 
+func (a *avl) InsertList(values ...u.Element) {
+	for _, v := range values {
+		a.Insert(v)
+	}
+}
+
 func (a *avl) Find(key u.Element) u.Element {
 	if key != nil && a.head != nil {
 		n := a.head.find(key)

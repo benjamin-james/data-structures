@@ -30,6 +30,12 @@ func bst_insert(tree *node, value u.Element) *node {
 	return tree
 }
 
+func (b *bst) InsertList(values ...u.Element) {
+	for _, v := range values {
+		b.Insert(v)
+	}
+}
+
 func (b *bst) Insert(value u.Element) {
 	b.head = bst_insert(b.head, value)
 }

@@ -1,3 +1,12 @@
 
 * data-structures
 data structures homework
+
+To test, run:
+=go test ./...=
+
+To build =benJames=, run
+=go build=
+
+To install, type
+=go install=

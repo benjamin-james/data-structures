@@ -28,7 +28,7 @@ func (a *Prob) Compare(b u.Element) int {
 func (p *Prob) Update() {}
 
 func (p *Prob) String() string {
-	return fmt.Sprintf("[\"%s %s\": %f]", p.str1, p.str2, p.num)
+	return fmt.Sprintf("P(\"%s\"|\"%s\") = %f", p.str2, p.str1, p.num)
 }
 
 func ComputeProbabilities(unigrams, bigrams, result u.DataStructure) {

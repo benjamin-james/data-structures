@@ -28,5 +28,5 @@ func (u *Unigram) Update() {
 }
 
 func (u *Unigram) String() string {
-	return fmt.Sprintf("[\"%s\": %d]", u.str, u.count)
+	return fmt.Sprintf("\"%s\" %d", u.str, u.count)
 }

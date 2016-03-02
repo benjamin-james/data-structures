@@ -114,6 +114,6 @@ func (n *node) leftright() *node {
 
 func (n *node) rightleft() *node {
 	temp := n.right
-	n.left = temp.leftleft()
+	n.right = temp.leftleft()
 	return n.rightright()
 }

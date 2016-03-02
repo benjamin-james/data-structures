@@ -19,7 +19,7 @@ type DataStructure interface {
 }
 
 /*
- * Sample struct to play with
+ * Sample struct to use
  */
 type Integer struct {
 	num int

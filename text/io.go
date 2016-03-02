@@ -33,3 +33,13 @@ func ReadFile(filename string, unigrams, bigrams u.DataStructure) error {
 	}
 	return scanner.Err()
 }
+
+func DumpToFile(filename string, ds u.DataStructure) error {
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	ds.Display(file)
+	return nil
+}

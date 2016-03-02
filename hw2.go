@@ -18,10 +18,17 @@ func main() {
 		time_file = fmt.Sprintf("%s.%s", filename, time_file)
 	}
 	uni, bi, result := tree.NewAVL(), tree.NewAVL(), tree.NewAVL()
-	err := text.ReadFile(filename, uni, bi)
+	assert(text.ReadFile(filename, uni, bi))
+	assert(text.DumpToFile(uni_file, uni))
+	assert(text.DumpToFile(bi_file, bi))
+	text.ComputeProbabilities(uni, bi, result)
+	assert(text.DumpToFile(cp_file, result))
+}
+
+// similar to assert(3)
+func assert(err error) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", err.Error())
-		return
+		os.Exit(1)
 	}
-	text.ComputeProbabilities(uni, bi, result)
 }

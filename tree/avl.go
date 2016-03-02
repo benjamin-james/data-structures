@@ -1,6 +1,9 @@
 package tree
 
-import u "benJames/util"
+import (
+	u "benJames/util"
+	"io"
+)
 
 type avl struct {
 	head *node
@@ -11,9 +14,9 @@ func (a *avl) init() *avl {
 	return a
 }
 
-func (a *avl) Display() {
+func (a *avl) Display(w io.Writer) {
 	if a.head != nil {
-		a.head.Display()
+		a.head.Display(w)
 	}
 }
 

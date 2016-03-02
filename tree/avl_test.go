@@ -2,20 +2,21 @@ package tree
 
 import (
 	u "benJames/util"
+	"os"
 	"testing"
 )
 
 func ExampleAVLInsert() {
 	a := NewAVL()
 	a.Insert(u.NewInteger(4))
-	a.Display()
+	a.Display(os.Stdout)
 	// Output: 4
 }
 
 func ExampleAVLInsertList() {
 	a := NewAVL()
 	a.InsertList(u.NewInteger(5), u.NewInteger(-4), u.NewInteger(32))
-	a.Display()
+	a.Display(os.Stdout)
 	// Output: -4
 	// 5
 	// 32
@@ -24,7 +25,7 @@ func ExampleAVLInsertList() {
 func ExampleAVLCollision() {
 	a := NewAVL()
 	a.InsertList(u.NewInteger(5), u.NewInteger(-4), u.NewInteger(5))
-	a.Display()
+	a.Display(os.Stdout)
 	// Output: -4
 	// 5
 }
@@ -32,7 +33,7 @@ func ExampleAVLCollision() {
 func ExampleLeftRight() {
 	a := NewAVL()
 	a.InsertList(u.NewInteger(5), u.NewInteger(-5), u.NewInteger(0))
-	a.Display()
+	a.Display(os.Stdout)
 	// Output: -5
 	// 0
 	// 5
@@ -41,7 +42,7 @@ func ExampleLeftRight() {
 func ExampleRightLeft() {
 	a := NewAVL()
 	a.InsertList(u.NewInteger(-5), u.NewInteger(5), u.NewInteger(0))
-	a.Display()
+	a.Display(os.Stdout)
 	// Output: -5
 	// 0
 	// 5
@@ -97,7 +98,7 @@ func TestLeftRight(t *testing.T) {
 func ExampleAVLLeftLeft() {
 	a := NewAVL()
 	a.InsertList(u.NewInteger(10), u.NewInteger(-4), u.NewInteger(-5))
-	a.Display()
+	a.Display(os.Stdout)
 	// Output: -5
 	// -4
 	// 10

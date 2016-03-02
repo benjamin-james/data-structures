@@ -3,6 +3,7 @@ package tree
 import (
 	u "benJames/util"
 	"fmt"
+	"io"
 )
 
 type node struct {
@@ -23,15 +24,16 @@ func NewNode(value u.Element) *node {
 	return new(node).init(value)
 }
 
-func (n *node) Display() {
+func (n *node) Display(w io.Writer) {
 	if n.left != nil {
-		n.left.Display()
+		n.left.Display(w)
 	}
-	fmt.Println(n.value)
+	fmt.Fprintln(w, n.value)
 	if n.right != nil {
-		n.right.Display()
+		n.right.Display(w)
 	}
 }
+
 func (n *node) diff() int {
 	return n.left_height() - n.right_height()
 }

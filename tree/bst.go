@@ -1,6 +1,9 @@
 package tree
 
-import u "benJames/util"
+import (
+	u "benJames/util"
+	"io"
+)
 
 type bst struct {
 	head *node
@@ -50,9 +53,9 @@ func (b *bst) Find(key u.Element) u.Element {
 	return nil
 }
 
-func (b *bst) Display() {
+func (b *bst) Display(w io.Writer) {
 	if b.head != nil {
-		b.head.Display()
+		b.head.Display(w)
 	}
 }
 

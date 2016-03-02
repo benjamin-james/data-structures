@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"io"
 )
 
 type Element interface {
@@ -11,7 +12,7 @@ type Element interface {
 }
 
 type DataStructure interface {
-	Display()
+	Display(io.Writer)
 	Insert(Element)
 	InsertList(...Element)
 	Find(Element) Element

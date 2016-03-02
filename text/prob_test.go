@@ -11,7 +11,7 @@ func ExampleComputeProbabilities() {
 	bi.InsertList(NewBi("foo", "bar", 1), NewBi("bar", "foo", 1), NewBi("foo", "baz", 1))
 	ComputeProbabilities(uni, bi, res)
 	res.Display(os.Stdout)
-	// Output: ["bar foo": 1.000000]
-	// ["foo bar": 0.500000]
-	// ["foo baz": 0.500000]
+	// Output: P("foo"|"bar") = 1.000000
+	// P("bar"|"foo") = 0.500000
+	// P("baz"|"foo") = 0.500000
 }

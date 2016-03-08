@@ -30,5 +30,5 @@ func (b *Bigram) Update() {
 }
 
 func (b *Bigram) String() string {
-	return fmt.Sprintf("\"%s %s\" %d]", b.str1, b.str2, b.count)
+	return fmt.Sprintf("\"%s %s\" %d", b.str1, b.str2, b.count)
 }

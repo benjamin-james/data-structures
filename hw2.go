@@ -21,10 +21,17 @@ func main() {
 		if argc == 0 {
 			continue
 		} else if strings.Compare("-h", argv) == 0 || strings.Compare("--help", argv) == 0 {
-			fmt.Printf("Usage: %s [--no-bst|--no-avl] filename\n", os.Args[0])
+			fmt.Printf("Usage: %s [--all|--bst|--no-bst|--avl|--no-avl] filename\n", os.Args[0])
 			os.Exit(0)
+		} else if strings.Compare("--all", argv) == 0 || strings.Compare("-a", argv) == 0 {
+			use_avl = true
+			use_bst = true
+		} else if strings.Compare("--bst", argv) == 0 {
+			use_bst = true
 		} else if strings.Compare("--no-bst", argv) == 0 {
 			use_bst = false
+		} else if strings.Compare("--avl", argv) == 0 {
+			use_avl = true
 		} else if strings.Compare("--no-avl", argv) == 0 {
 			use_avl = false
 		} else if _, err := os.Stat(argv); err == nil && !has_input {

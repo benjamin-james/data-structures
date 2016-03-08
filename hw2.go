@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func compute(filename string, uni, bi, result util.DataStructure) (time.Duration, int) {
+func Compute(filename string, uni, bi, result util.DataStructure) (time.Duration, int) {
 	now := time.Now()
 	wc, err := text.ReadFile(filename, uni, bi)
 	assert(err)
@@ -29,8 +29,8 @@ func main() {
 	}
 	uni_avl, bi_avl, result_avl := tree.NewAVL(), tree.NewAVL(), tree.NewAVL()
 	uni_bst, bi_bst, result_bst := tree.NewBST(), tree.NewBST(), tree.NewBST()
-	dur_avl, wc := compute(filename, uni_avl, bi_avl, result_avl)
-	dur_bst, _ := compute(filename, uni_bst, bi_bst, result_bst)
+	dur_avl, wc := Compute(filename, uni_avl, bi_avl, result_avl)
+	dur_bst, _ := Compute(filename, uni_bst, bi_bst, result_bst)
 	assert(text.DumpToFile(uni_file, uni_avl))
 	assert(text.DumpToFile(bi_file, bi_avl))
 	assert(text.DumpToFile(cp_file, result_avl))

@@ -51,13 +51,12 @@ func main() {
 	}
 	if use_avl {
 		uni, bi, result := tree.NewAVL(), tree.NewAVL(), tree.NewAVL()
-		dur, wc := Compute(filename, uni, bi, result)
+		ins_time, read_time, total_time, wc := Compute(filename, uni, bi, result)
+		str = fmt.Sprintf("filename:\t\t%s\nword count:\t\t%d\nAVL insert time:\t%s\nAVL read time:\t\t%s\nAVL total time:\t\t%s\n", filename, wc, ins_time.String(), read_time.String(), total_time.String())
 		if use_bst {
 			uni_bst, bi_bst, result_bst := tree.NewBST(), tree.NewBST(), tree.NewBST()
-			dur_bst, _ := Compute(filename, uni_bst, bi_bst, result_bst)
-			str = fmt.Sprintf("filename:\t%s\nword count:\t%d\nAVL time:\t%s\nBST time:\t%s\n", filename, wc, dur.String(), dur_bst.String())
-		} else {
-			str = fmt.Sprintf("filename:\t%s\nword count:\t%d\nAVL time:\t%s\n", filename, wc, dur.String())
+			ins_time_bst, read_time_bst, total_time_bst, _ := Compute(filename, uni_bst, bi_bst, result_bst)
+			str = fmt.Sprintf("%sBST insert time:\t%s\nBST read time:\t\t%s\nBST total time:\t\t%s\n", str, ins_time_bst.String(), read_time_bst.String(), total_time_bst.String())
 		}
 		text.DumpToFile(uni_file, uni)
 		text.DumpToFile(bi_file, bi)
@@ -65,8 +64,8 @@ func main() {
 		text.WriteString(time_file, str)
 	} else if use_bst {
 		uni, bi, result := tree.NewBST(), tree.NewBST(), tree.NewBST()
-		dur, wc := Compute(filename, uni, bi, result)
-		str = fmt.Sprintf("filename:\t%s\nword count:\t%d\nBST time:\t%s\n", filename, wc, dur.String())
+		ins_time, read_time, total_time, wc := Compute(filename, uni, bi, result)
+		str = fmt.Sprintf("filename:\t\t%s\nword count:\t\t%d\nBST insert time:\t%s\nBST read time:\t\t%s\nBST total time:\t\t%s\n", filename, wc, ins_time.String(), read_time.String(), total_time.String())
 		text.DumpToFile(uni_file, uni)
 		text.DumpToFile(bi_file, bi)
 		text.DumpToFile(cp_file, result)
@@ -74,12 +73,13 @@ func main() {
 	}
 }
 
-func Compute(filename string, uni, bi, result util.DataStructure) (time.Duration, int) {
-	now := time.Now()
+func Compute(filename string, uni, bi, result util.DataStructure) (time.Duration, time.Duration, time.Duration, int) {
+	start := time.Now()
 	wc, err := text.ReadFile(filename, uni, bi)
+	mid, ins_time := time.Now(), time.Since(start)
 	assert(err)
 	text.ComputeProbabilities(uni, bi, result)
-	return time.Since(now), wc
+	return ins_time, time.Since(mid), time.Since(start), wc
 }
 
 // similar to assert(3)

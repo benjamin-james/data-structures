@@ -5,14 +5,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
-
-func Clean(str string) string {
-	//lowercase, remove punctuation, numbers
-	str = strings.ToLower(str)
-	return str
-}
 
 func WriteString(filename string, s string) error {
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0644)
@@ -35,7 +28,6 @@ func ReadFile(filename string, unigrams, bigrams u.DataStructure) (int, error) {
 	count := 0
 	for scanner.Scan() {
 		str := scanner.Text()
-		str = Clean(str)
 		unigrams.Insert(NewUni(str, 1))
 		if prev != "" {
 			bigrams.Insert(NewBi(prev, str, 1))

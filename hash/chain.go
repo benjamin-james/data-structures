@@ -27,7 +27,7 @@ func list_insert(list *chain_elt, e util.Element) *chain_elt {
 		list.value.Update()
 		return list
 	} else {
-		return list_insert(list.next, e)
+		return &chain_elt{e, list}
 	}
 }
 
@@ -54,8 +54,8 @@ func (c *ChainHash) Find(e util.Element) util.Element {
 
 func (c *ChainHash) Display(w io.Writer) {
 	for _, e := range c.table {
-		for ; e != nil; e = e.next {
-			fmt.Fprintln(w, e.value)
+		for elt := e; elt != nil; elt = elt.next {
+			fmt.Fprintln(w, elt.value)
 		}
 	}
 }

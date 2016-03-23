@@ -23,7 +23,7 @@ type DataStructure interface {
  * Sample struct to use
  */
 type Integer struct {
-	num int
+	Num int
 }
 
 func NewInteger(n int) *Integer {
@@ -32,7 +32,7 @@ func NewInteger(n int) *Integer {
 
 func (a *Integer) Compare(e Element) int {
 	if b, is_int := e.(*Integer); is_int {
-		return a.num - b.num
+		return a.Num - b.Num
 	} else {
 		return 0
 	}
@@ -41,5 +41,5 @@ func (a *Integer) Compare(e Element) int {
 func (i *Integer) Update() {}
 
 func (i *Integer) String() string {
-	return fmt.Sprintf("%d", i.num)
+	return fmt.Sprintf("%d", i.Num)
 }

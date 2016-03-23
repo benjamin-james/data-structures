@@ -1,6 +1,5 @@
 
-* data-structures
-data structures homework
+* project 2
 
 To test, run:
 =go test ./...=
@@ -10,3 +9,10 @@ To build =benJames=, run
 
 To install, type
 =go install=
+
+To run, (after it is installed), type
+=benJames input=
+to read from the file =input= and produce the files 
+=input.uni=, =input.bi=, =input.cp=, and =input.time=.
+
+By default, =benJames= reads from stdin.

@@ -6,41 +6,20 @@ import (
 
 type HashFunc func(util.Element, int) int
 
-type HashElt struct {
-	value  util.Element
-	exists bool
+type KeySet struct {
+	value util.Element
+	next  *KeySet
 }
 
-type QuadHash struct {
-	table    []HashElt
-	capacity int
-	hash     HashFunc
-}
-
-func NewQuadHash(hash HashFunc, size int) *QuadHash {
-	return &QuadHash{make([]HashElt, size), 0, hash}
-}
-
-func (h *QuadHash) f(e util.Element, i int) {
-	i %= len(h.table)
-	if h.table[i].exists {
-		if h.table[i].value.Compare(e) == 0 {
-			h.table[i].value.Update()
-		} else {
-			h.f(e, i*i)
-		}
-
-	} else {
-		h.table[i].value = e
-		h.table[i].exists = true
-		h.capacity++
+func keyset_insert(ptr **KeySet, value util.Element) {
+	tmp := *ptr
+	var prev *KeySet
+	for tmp != nil && tmp.value.Compare(value) <= 0 {
+		prev, tmp = tmp, tmp.next
 	}
-}
-
-func (h *QuadHash) Insert(e util.Element) {
-	pos := h.hash(e, len(h.table))
-	h.f(e, pos)
-	if h.capacity >= len(h.table)/2 {
-		//resize, rehash
+	if prev == nil {
+		*ptr = &KeySet{value, tmp}
+	} else {
+		prev.next = &KeySet{value, tmp}
 	}
 }

@@ -13,14 +13,15 @@ type chain_elt struct {
 
 type ChainHash struct {
 	table []*chain_elt
+	ks    *KeySet
 	hash  HashFunc
 }
 
 func NewChainHash(hash HashFunc, size int) *ChainHash {
-	return &ChainHash{make([]*chain_elt, size), hash}
+	return &ChainHash{make([]*chain_elt, size), nil, hash}
 }
 
-func list_insert(list *chain_elt, e util.Element) *chain_elt {
+func list_insert(list *chain_elt, e util.Element, ks **KeySet) *chain_elt {
 	if list == nil {
 		return &chain_elt{e, nil}
 	} else if list.value.Compare(e) == 0 {
@@ -33,7 +34,15 @@ func list_insert(list *chain_elt, e util.Element) *chain_elt {
 
 func (c *ChainHash) Insert(e util.Element) {
 	pos := c.hash(e, len(c.table))
-	c.table[pos] = list_insert(c.table[pos], e)
+	if c.table[pos] == nil {
+		c.table[pos] = &chain_elt{e, nil}
+		keyset_insert(&c.ks, e)
+	} else if c.table[pos].value.Compare(e) == 0 {
+		c.table[pos].value.Update()
+	} else {
+		c.table[pos] = &chain_elt{e, c.table[pos]}
+		keyset_insert(&c.ks, e)
+	}
 }
 
 func (c *ChainHash) InsertList(values ...util.Element) {
@@ -53,20 +62,16 @@ func (c *ChainHash) Find(e util.Element) util.Element {
 }
 
 func (c *ChainHash) Display(w io.Writer) {
-	for _, e := range c.table {
-		for elt := e; elt != nil; elt = elt.next {
-			fmt.Fprintln(w, elt.value)
-		}
+	for x := range c.Iterator() {
+		fmt.Fprintln(w, x)
 	}
 }
 
 func (c *ChainHash) Iterator() <-chan util.Element {
 	ch := make(chan util.Element)
 	go func() {
-		for _, e := range c.table {
-			for ; e != nil; e = e.next {
-				ch <- e.value
-			}
+		for ks := c.ks; ks != nil; ks = ks.next {
+			ch <- c.Find(ks.value)
 		}
 		close(ch)
 	}()

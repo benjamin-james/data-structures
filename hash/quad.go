@@ -55,9 +55,9 @@ func (h *QuadHash) Iterator() <-chan util.Element {
 }
 
 func (h *QuadHash) Insert(e util.Element) {
-	index := h.hash(e, len(h.table))
+	hash := h.hash(e, len(h.table))
 	for i := 0; i < len(h.table); i++ {
-		index = (index + i*i) % len(h.table)
+		index := (hash + i*i) % len(h.table)
 		if h.table[index] != nil && e.Compare(*h.table[index]) == 0 {
 			(*h.table[index]).Update()
 			break
@@ -77,9 +77,9 @@ func (h *QuadHash) Insert(e util.Element) {
 func (h *QuadHash) ResizeAndRehash() {
 	table := make([]*util.Element, len(h.table)*2)
 	for ks := h.ks; ks != nil; ks = ks.next {
-		index := h.hash(ks.value, len(table))
+		hash := h.hash(ks.value, len(table))
 		for i := 0; i < len(table); i++ {
-			index = (index + i*i) % len(table)
+			index := (hash + i*i) % len(table)
 			if table[index] == nil {
 				table[index] = h.Get(ks.value)
 				break
@@ -90,9 +90,9 @@ func (h *QuadHash) ResizeAndRehash() {
 }
 
 func (h *QuadHash) Get(e util.Element) *util.Element {
-	index := h.hash(e, len(h.table))
+	hash := h.hash(e, len(h.table))
 	for i := 0; i < len(h.table); i++ {
-		index = (index + i*i) % len(h.table)
+		index := (hash + i*i) % len(h.table)
 		if h.table[index] != nil && e.Compare(*h.table[index]) == 0 {
 			return h.table[index]
 		}

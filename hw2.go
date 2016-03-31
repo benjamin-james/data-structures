@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func main() {
+func main2() {
 	filename := "/dev/stdin"
 	uni_file, bi_file, cp_file, time_file := "uni", "bi", "cp", "time"
 	str := ""

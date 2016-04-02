@@ -13,12 +13,13 @@ type chain_elt struct {
 
 type ChainHash struct {
 	table []*chain_elt
+	size  int
 	ks    *KeySet
 	hash  HashFunc
 }
 
 func NewChainHash(hash HashFunc, size int) *ChainHash {
-	return &ChainHash{make([]*chain_elt, size), nil, hash}
+	return &ChainHash{make([]*chain_elt, size), 0, nil, hash}
 }
 
 func list_insert(list *chain_elt, e util.Element, ks **KeySet) *chain_elt {
@@ -36,11 +37,13 @@ func (c *ChainHash) Insert(e util.Element) {
 	pos := c.hash(e, len(c.table))
 	if c.table[pos] == nil {
 		c.table[pos] = &chain_elt{e, nil}
+		c.size++
 		keyset_insert(&c.ks, e)
 	} else if c.table[pos].value.Compare(e) == 0 {
 		c.table[pos].value.Update()
 	} else {
 		c.table[pos] = &chain_elt{e, c.table[pos]}
+		c.size++
 		keyset_insert(&c.ks, e)
 	}
 }

@@ -44,3 +44,31 @@ func ExampleChainUpdate() {
 	// Output: -4
 	// 5
 }
+
+func ExampleChainResizeAndRehash() {
+	c := NewChainHash(IntHash, 5)
+	for i := 1; i <= 20; i++ {
+		c.Insert(util.NewInteger(i))
+	}
+	c.Display(os.Stdout)
+	// Output: 1
+	// 2
+	// 3
+	// 4
+	// 5
+	// 6
+	// 7
+	// 8
+	// 9
+	// 10
+	// 11
+	// 12
+	// 13
+	// 14
+	// 15
+	// 16
+	// 17
+	// 18
+	// 19
+	// 20
+}

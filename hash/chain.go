@@ -46,6 +46,18 @@ func (c *ChainHash) Insert(e util.Element) {
 		c.size++
 		keyset_insert(&c.ks, e)
 	}
+	if c.size >= len(c.table) {
+		c.ResizeAndRehash()
+	}
+}
+
+func (c *ChainHash) ResizeAndRehash() {
+	table := make([]*chain_elt, c.size*2)
+	for ks := c.ks; ks != nil; ks = ks.next {
+		hash := c.hash(ks.value, len(table))
+		table[hash] = &chain_elt{ks.value, table[hash]}
+	}
+	c.table = table
 }
 
 func (c *ChainHash) InsertList(values ...util.Element) {

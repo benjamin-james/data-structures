@@ -68,7 +68,7 @@ func (d *DoubleHash) Insert(e util.Element) {
 }
 
 func (d *DoubleHash) ResizeAndRehash() {
-	table := make([]*util.Element, len(d.table)*2)
+	table := make([]*util.Element, len(d.table)*2+1)
 	for ks := d.ks; ks != nil; ks = ks.next {
 		hash1, hash2 := d.h1(ks.value, len(table)), d.h2(ks.value, len(table))
 		for i := 0; i < len(table); i++ {

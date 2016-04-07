@@ -75,7 +75,7 @@ func (h *QuadHash) Insert(e util.Element) {
 }
 
 func (h *QuadHash) ResizeAndRehash() {
-	table := make([]*util.Element, len(h.table)*2)
+	table := make([]*util.Element, len(h.table)*2+1)
 	for ks := h.ks; ks != nil; ks = ks.next {
 		hash := h.hash(ks.value, len(table))
 		for i := 0; i < len(table); i++ {

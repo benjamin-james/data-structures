@@ -22,17 +22,6 @@ func NewChainHash(hash HashFunc, size int) *ChainHash {
 	return &ChainHash{make([]*chain_elt, size), 0, nil, hash}
 }
 
-func list_insert(list *chain_elt, e util.Element, ks **KeySet) *chain_elt {
-	if list == nil {
-		return &chain_elt{e, nil}
-	} else if list.value.Compare(e) == 0 {
-		list.value.Update()
-		return list
-	} else {
-		return &chain_elt{e, list}
-	}
-}
-
 func (c *ChainHash) Insert(e util.Element) {
 	pos := c.hash(e, len(c.table))
 	if c.table[pos] == nil {
@@ -52,7 +41,7 @@ func (c *ChainHash) Insert(e util.Element) {
 }
 
 func (c *ChainHash) ResizeAndRehash() {
-	table := make([]*chain_elt, c.size*2)
+	table := make([]*chain_elt, len(c.table)*2+1)
 	for ks := c.ks; ks != nil; ks = ks.next {
 		hash := c.hash(ks.value, len(table))
 		table[hash] = &chain_elt{ks.value, table[hash]}

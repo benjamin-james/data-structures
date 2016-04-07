@@ -75,7 +75,10 @@ func (c *ChainHash) Iterator() <-chan util.Element {
 	ch := make(chan util.Element)
 	go func() {
 		for ks := c.ks; ks != nil; ks = ks.next {
-			ch <- c.Find(ks.value)
+			e := c.Find(ks.value)
+			if e != nil {
+				ch <- e
+			}
 		}
 		close(ch)
 	}()

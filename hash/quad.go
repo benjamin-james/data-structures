@@ -47,7 +47,9 @@ func (h *QuadHash) Iterator() <-chan util.Element {
 	go func() {
 		for ks := h.ks; ks != nil; ks = ks.next {
 			e := h.Get(ks.value)
-			ch <- *e
+			if e != nil {
+				ch <- *e
+			}
 		}
 		close(ch)
 	}()

@@ -38,7 +38,7 @@ func (d *DoubleHash) Iterator() <-chan util.Element {
 }
 
 func (d *DoubleHash) Get(e util.Element) *util.Element {
-	hash1, hash2 := d.h1(e, len(d.table)), d.h2(e, len(d.table))
+	hash1, hash2 := d.h1(e, len(d.table)), d.h2(e, len(d.table)-1)+1
 	for i := 0; i < len(d.table); i++ {
 		index := (hash1 + i*hash2) % len(d.table)
 		if d.table[index] != nil && e.Compare(*d.table[index]) == 0 {
@@ -49,7 +49,7 @@ func (d *DoubleHash) Get(e util.Element) *util.Element {
 }
 
 func (d *DoubleHash) Insert(e util.Element) {
-	hash1, hash2 := d.h1(e, len(d.table)), d.h2(e, len(d.table))
+	hash1, hash2 := d.h1(e, len(d.table)), d.h2(e, len(d.table)-1)+1
 	for i := 0; i < len(d.table); i++ {
 		index := (hash1 + i*hash2) % len(d.table)
 		if d.table[index] != nil && e.Compare(*d.table[index]) == 0 {
@@ -70,7 +70,7 @@ func (d *DoubleHash) Insert(e util.Element) {
 func (d *DoubleHash) ResizeAndRehash() {
 	table := make([]*util.Element, len(d.table)*2+1)
 	for ks := d.ks; ks != nil; ks = ks.next {
-		hash1, hash2 := d.h1(ks.value, len(table)), d.h2(ks.value, len(table))
+		hash1, hash2 := d.h1(ks.value, len(table)), d.h2(ks.value, len(table)-1)+1
 		for i := 0; i < len(table); i++ {
 			index := (hash1 + i*hash2) % len(table)
 			if table[index] == nil {
